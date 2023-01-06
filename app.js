@@ -1,4 +1,8 @@
 const express = require("express");
+
+const morgan = require("morgan")
+app.use('morgan')
+
 const app = express();
 
 app.get("/", (req, res) => res.send("<h1>WIZARDS ONLY FOOLS</h1><h2>Testing</h2>"));
