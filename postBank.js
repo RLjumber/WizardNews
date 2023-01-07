@@ -14,3 +14,16 @@ const data = [
     { id: 13, upvotes: 21, title: "Mailing lists WN readers ought to know about?", content: "I love to subscribe to information feeds through mailing list subscription. What do you subscribe to that you think others would benefit by if they were to as well?", name: "Dracod", date: new Date(Date.now() - 60000) },
     { id: 14, upvotes: 10, title: "How to tell which spell used on a bug?", content: "Question: Are ther any non-jinx incantations available to detect which spell used on a bug?", name: "Lupin", date: new Date() }
 ];
+
+const list = () => {
+    return [...data]
+    // We're only returning a copy of the array, so the original data is safe. This is called 'immutability'.
+};
+
+const find = (id) => {
+    const post = data.find(post => post.id === Number(id));
+    return { ...post };
+    // Again, we copy the post data before returning it, so the original information is immutable.
+}
+
+module.exports = { list: list, find: find }
