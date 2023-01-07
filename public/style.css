@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+/* post_title class edit start*/
+.post_title {
+  color: blue;
+}
+/* post_title class edit end*/
+
+
 body {
   font-family: sans-serif;
 }
