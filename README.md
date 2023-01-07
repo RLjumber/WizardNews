@@ -12,3 +12,6 @@ I've added a new get route for individual post views and linked the titles (line
 You should now be able to click on a post title and get directed to an individual post view. 
 We should be on 8.6, Custom Error Handler now. I have to do some grocery shopping otherwise I'd knock that out. 
 I'm up to try the bonus items before deploying. Let me know. 
+
+
+11:47 my time, Im going out for the day but will have time to work on this later, but good good the site looks great and i see that the styling must have been worked out. I cant find where you implementd the static routing however. 

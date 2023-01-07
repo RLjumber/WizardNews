@@ -6,6 +6,7 @@ const morgan = require("morgan");
 app.use(morgan("dev"));
 
 app.use(express.static('public'))
+// this is cool and its what i was missing for the css
 
 // app.get("/", (req, res) => res.send("<h1>WIZARDS ONLY FOOLS!!!</h1><h2>Testing</h2>")); 
 
@@ -32,7 +33,7 @@ app.get("/", (req, res) => {
         
           <main>  
             ${posts.map(post => `
-              <div class ="news-item">
+              <div class="news-item">
 
                 <p>
                   <span class="news-position">${post.id}. ▲</span>
@@ -52,9 +53,6 @@ app.get("/", (req, res) => {
       </body>
 
     </html>`;
-  // cannot get the styling to apply however
-  // There is some weird concatenation within the <ul>, different than JSX but similar kinda style with the html within a js and we can use methods like .map inside them. cool stuff.
-  // List is comma separated however there are MDN docs on it, still needs to be done. I added a class to the list items so we can add links to them later on or for now i want them to color when hovered.
 
   res.send(html);
 })
@@ -62,6 +60,28 @@ app.get("/", (req, res) => {
 app.get("/posts/:id", (req, res) => {
   const id = req.params.id;
   const post = postBank.find(id)
+
+  if (!post.id) {
+    // If the post wasn't found, set the HTTP status to 404 and send Not Found HTML
+    res.status(404)
+    // this whole bit in here i just pasted from the site but my gf is on me to leave so we are gonna head out but the error isworking, may be better approach however.
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Wizard News</title>
+      <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+      <header><img src="/logo.png"/>Wizard News</header>
+      <div class="not-found">
+        <p>Accio Page! 🧙‍♀️ ... Page Not Found</p>
+        <img src="/dumbledore-404.gif" />
+      </div>
+    </body>
+    </html>`
+    res.send(html)
+  } else {
 
   const html = `<!DOCTYPE html>
     <html>
@@ -101,7 +121,8 @@ app.get("/posts/:id", (req, res) => {
 
   res.send(html)
 
-});
+  }}
+);
 
 
 const PORT = 1337;
