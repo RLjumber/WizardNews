@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
                 <p>
                   <span class="news-position">${post.id}. ▲</span>
-                  ${post.title}
+                  <a href="/posts/${post.id}">${post.title}</a>
                   <small>(by: ${post.name})</small>
                 </p>
 
@@ -44,8 +44,7 @@ app.get("/", (req, res) => {
                   ${post.upvotes} upvotes | ${post.date}
                 </small>
 
-              </div>`
-  ).join('')}
+              </div>`).join('')}
           </main>
 
         </div>
@@ -59,6 +58,50 @@ app.get("/", (req, res) => {
 
   res.send(html);
 })
+
+app.get("/posts/:id", (req, res) => {
+  const id = req.params.id;
+  const post = postBank.find(id)
+
+  const html = `<!DOCTYPE html>
+    <html>
+
+      <head>
+        <title>Wiz News</title>
+        <link rel="stylesheet" href="/style.css" />
+      </head>
+
+      <body>
+      
+        <div class="news-list">
+
+          <h1><img src="/logo.png"/> WIZARDS ONLY FOOLS!!!</h1>
+        
+          <main>  
+            
+              <div class ="news-item">
+
+                <p>
+                  ${post.title}
+                  <small>(by: ${post.name})</small>
+                </p>
+
+                <p>
+                  ${post.content}
+                </p>
+
+              </div>
+          </main>
+
+        </div>
+
+      </body>
+
+    </html>`;
+
+  res.send(html)
+
+});
 
 
 const PORT = 1337;
