@@ -5,7 +5,11 @@ const postBank = require("./postBank")
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+app.use(express.static('public'))
 
+// app.get("/", (req, res) => res.send("<h1>WIZARDS ONLY FOOLS!!!</h1><h2>Testing</h2>")); 
+
+//I commeneted out the app.get on line 8 and the get request below rendered. I guess each get request has to have a unique route, otherwise it will only load the first one it reads. I reformatted the HTML a bit and added a <main> section. Posts are now showing
 
 
 app.get("/", (req, res) => {
@@ -14,22 +18,41 @@ app.get("/", (req, res) => {
 
   const html = `<!DOCTYPE html>
     <html>
+
       <head>
         <title>Wiz News</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/style.css" />
       </head>
 
       <body>
-        <ul>
-          ${posts.map(post => 
-            `<li className="post_title">${post.title}
-                <p>By: ${post.name}</p>
-            </li>`
-          )}
-        </ul>
+      
+        <div class="news-list">
+
+          <h1><img src="/logo.png"/> WIZARDS ONLY FOOLS!!!</h1>
+        
+          <main>  
+            ${posts.map(post => `
+              <div class ="news-item">
+
+                <p>
+                  <span class="news-position">${post.id}. ▲</span>
+                  ${post.title}
+                  <small>(by: ${post.name})</small>
+                </p>
+
+                <small class="news-info">
+                  ${post.upvotes} upvotes | ${post.date}
+                </small>
+
+              </div>`
+  ).join('')}
+          </main>
+
+        </div>
+
       </body>
-    </html>
-  `
+
+    </html>`;
   // cannot get the styling to apply however
   // There is some weird concatenation within the <ul>, different than JSX but similar kinda style with the html within a js and we can use methods like .map inside them. cool stuff.
   // List is comma separated however there are MDN docs on it, still needs to be done. I added a class to the list items so we can add links to them later on or for now i want them to color when hovered.
