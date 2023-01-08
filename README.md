@@ -14,4 +14,6 @@ We should be on 8.6, Custom Error Handler now. I have to do some grocery shoppin
 I'm up to try the bonus items before deploying. Let me know. 
 
 
-11:47 my time, Im going out for the day but will have time to work on this later, but good good the site looks great and i see that the styling must have been worked out. I cant find where you implementd the static routing however. 
+11:47 my time, Im going out for the day but will have time to work on this later, but good good the site looks great and i see that the styling must have been worked out. I cant find where you implementd the static routing however.
+
+Looks like the only thing that needs to be worked on is the deployment! Wizards rule!
