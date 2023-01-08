@@ -25,11 +25,14 @@ app.get("/", (req, res) => {
         <link rel="stylesheet" href="/style.css" />
       </head>
 
+      <header class="header-main">
+        <img src="/logo.png"/>
+        <h3 id="title"> WIZARDS ONLY FOOLS </h3>
+      </header>
+
       <body>
       
         <div class="news-list">
-
-          <h1><img src="/logo.png"/> WIZARDS ONLY FOOLS!!!</h1>
         
           <main>  
             ${posts.map(post => `
@@ -67,19 +70,25 @@ app.get("/posts/:id", (req, res) => {
     // this whole bit in here i just pasted from the site but my gf is on me to leave so we are gonna head out but the error isworking, may be better approach however.
     const html = `
     <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Wizard News</title>
-      <link rel="stylesheet" href="/style.css" />
-    </head>
-    <body>
-      <header><img src="/logo.png"/>Wizard News</header>
-      <div class="not-found">
-        <p>Accio Page! 🧙‍♀️ ... Page Not Found</p>
-        <img src="/dumbledore-404.gif" />
-      </div>
-    </body>
-    </html>`
+      <html>
+
+        <head>
+          <title>Wizard News</title>
+          <link rel="stylesheet" href="/style.css" />
+        </head>
+
+        <body>
+          <header><img src="/logo.png"/>Wizard News</header>
+
+          <div class="not-found">
+            <h2>Accio Page! 🧙‍♀️ ... 404 - Page Not Found</h2>
+            <img class="confused-travolta" src="https://i.imgur.com/e1IneGq.jpg" />
+          </div>
+
+        </body>
+
+      </html>`
+
     res.send(html)
   } else {
 
@@ -91,18 +100,22 @@ app.get("/posts/:id", (req, res) => {
         <link rel="stylesheet" href="/style.css" />
       </head>
 
+      <header class="header-main">
+        <img src="/logo.png"/>
+        <h3 id="title"> WIZARDS ONLY FOOLS </h3>
+      </header>
+
       <body>
       
         <div class="news-list">
 
-          <h1><img src="/logo.png"/> WIZARDS ONLY FOOLS!!!</h1>
+          <h2><img src="/logo.png"/> ${post.title} </h2>
         
           <main>  
             
               <div class ="news-item">
 
                 <p>
-                  ${post.title}
                   <small>(by: ${post.name})</small>
                 </p>
 
