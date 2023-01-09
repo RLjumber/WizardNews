@@ -1,98 +1,27 @@
 const express = require("express");
-const app = express();
-const postBank = require("./postBank")
-
 const morgan = require("morgan");
+const postBank = require("./postBank");
+const postList = require("./views/postList");
+
+const app = express();
+const PORT = 1337;
+
 app.use(morgan("dev"));
 
 app.use(express.static('public'))
-// this is cool and its what i was missing for the css
-
-// app.get("/", (req, res) => res.send("<h1>WIZARDS ONLY FOOLS!!!</h1><h2>Testing</h2>")); 
-
-//I commeneted out the app.get on line 8 and the get request below rendered. I guess each get request has to have a unique route, otherwise it will only load the first one it reads. I reformatted the HTML a bit and added a <main> section. Posts are now showing
-
 
 app.get("/", (req, res) => {
   const posts = postBank.list();
-  // postBank.list grabs our list module frome the module exports
-
-  const html = `<!DOCTYPE html>
-    <html>
-
-      <head>
-        <title>Wiz News</title>
-        <link rel="stylesheet" href="/style.css" />
-      </head>
-
-      <header class="header-main">
-        <img src="/logo.png"/>
-        <h3 id="title"> WIZARDS ONLY FOOLS </h3>
-      </header>
-
-      <body>
-      
-        <div class="news-list">
-        
-          <main>  
-            ${posts.map(post => `
-              <div class="news-item">
-
-                <p>
-                  <span class="news-position">${post.id}. ▲</span>
-                  <a href="/posts/${post.id}">${post.title}</a>
-                  <small>(by: ${post.name})</small>
-                </p>
-
-                <small class="news-info">
-                  ${post.upvotes} upvotes | ${post.date}
-                </small>
-
-              </div>`).join('')}
-          </main>
-
-        </div>
-
-      </body>
-
-    </html>`;
-
-  res.send(html);
+  res.send(postList(posts));
 })
 
-app.get("/posts/:id", (req, res) => {
-  const id = req.params.id;
-  const post = postBank.find(id)
+app.get("/posts/:id", (req, res, next) => {
+  const post = postBank.find(req.params.id);
 
-  if (!post.id) {
-    // If the post wasn't found, set the HTTP status to 404 and send Not Found HTML
-    res.status(404)
-    // this whole bit in here i just pasted from the site but my gf is on me to leave so we are gonna head out but the error isworking, may be better approach however.
-    const html = `
-    <!DOCTYPE html>
-      <html>
 
-        <head>
-          <title>Wizard News</title>
-          <link rel="stylesheet" href="/style.css" />
-        </head>
+  if (post.id) {
 
-        <body>
-          <header><img src="/logo.png"/>Wizard News</header>
-
-          <div class="not-found">
-            <h2>Accio Page! 🧙‍♀️ ... 404 - Page Not Found</h2>
-            <img class="confused-travolta" src="https://i.imgur.com/e1IneGq.jpg" />
-          </div>
-
-        </body>
-
-      </html>`
-
-    res.send(html)
-  } else {
-
-  const html = `<!DOCTYPE html>
+    const postDetails = `<!DOCTYPE html>
     <html>
 
       <head>
@@ -132,13 +61,41 @@ app.get("/posts/:id", (req, res) => {
 
     </html>`;
 
-  res.send(html)
+    res.send(postDetails)
 
-  }}
+  } else {
+    next(err)
+  }
+}
 );
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(404)
 
-const PORT = 1337;
+  const errorHTML = `
+  <!DOCTYPE html>
+    <html>
+
+      <head>
+        <title>Wizard News</title>
+        <link rel="stylesheet" href="/style.css" />
+      </head>
+
+      <body>
+        <header><img src="/logo.png"/>Wizard News</header>
+
+        <div class="not-found">
+          <h2>Accio Page! 🧙‍♀️ ... 404 - Page Not Found</h2>
+          <img class="confused-travolta" src="https://i.imgur.com/e1IneGq.jpg" />
+        </div>
+
+      </body>
+
+    </html>`
+
+  res.send(errorHTML)
+})
 
 app.listen(PORT, () => {
   console.log(`App listening in port ${PORT}`);
